@@ -1,7 +1,7 @@
 export const avatarUsers = [
   {
     id: "1a7a17d3-8325-4c27-bb2d-f3f00e2ef7c6",
-    url: "../assets/avatars-light-version.png",
+    url: "../assets/user_1",
   },
   {
     id: "2b8431c7-4870-46d1-a074-d9cf4c7d5e76",

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, Button } from "react-native";
 
 export const HistoryScreen = ({ navigation }) => {
   useEffect(() => {
@@ -10,7 +10,10 @@ export const HistoryScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Historial</Text>
-      {/* <Button title="lista" onPress={() => navigation.navigate("ListScreen")} /> */}
+      <Button
+        title="lista"
+        onPress={() => navigation.navigate("RandomScreen")}
+      />
     </View>
   );
 };

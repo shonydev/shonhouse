@@ -13,6 +13,7 @@ export const ListScreen = ({ navigation }) => {
     <View style={{ flex: 1 }}>
       <ListComponents />
       <Button title="Home" onPress={() => navigation.navigate("HomeScreen")} />
+      <Button title="dd" onPress={() => navigation.navigate("RandomScreen")} />
     </View>
   );
 };

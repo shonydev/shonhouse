@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import {
   Color,
@@ -9,131 +9,157 @@ import {
   StyleVariable,
 } from "../../GlobalStyles";
 import { avatarUsers } from "../../Urlavataruses";
+import ModalTime from "./ModalTime";
 
 const Card = ({ names, avatarUrl, dates, id, surnames, cosam }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataModal, setDataModal] = useState({});
+
   const [fontsLoaded] = useFonts({
     "SFProDisplay-Regular": require("../../assets/fonts/Inter-Regular.ttf"),
   });
-
+  const images = {
+    "1a7a17d3-8325-4c27-bb2d-f3f00e2ef7c6": require("../../assets/photos/user_1.jpg"),
+    "2b8431c7-4870-46d1-a074-d9cf4c7d5e76": require("../../assets/photos/user_2.jpg"),
+    "3c6a5ff1-5d6a-459e-bd2a-4bcbcd8b4edf": require("../../assets/photos/user_3.jpg"),
+    "4d8f04f4-8594-4b24-85d1-bce242645a1b": require("../../assets/photos/user_4.jpg"),
+    "5e0c2354-d362-4847-88dc-4e2d07e26e15": require("../../assets/photos/user_5.jpg"),
+    "6f2e688c-3e4a-47d7-8cf4-d8a7e44cf4ee": require("../../assets/photos/user_6.jpg"),
+    "7b12f477-520b-4f97-a889-2b3736427c58": require("../../assets/photos/user_7.jpg"),
+    "8c45f76a-77ac-4813-ba35-29d7e6f9d29c": require("../../assets/photos/user_8.jpg"),
+  };
   const url = avatarUsers.filter((user) => user.id === id)[0].url;
   const url2 = "../assets/photos/avatars-light-version@3x.png";
 
   if (!fontsLoaded) {
     return null;
   }
-  if (dates.length > 1) {
-    dates.map((date, index) => {
-      console.log(`index: ${index}`);
-      console.log(`${JSON.stringify(avatarUsers[index])}`);
-      console.log("url: " + url);
-    });
-    return dates.map((date, index) => (
-      <View key={id + date.day + date.type} style={styles.fullContainer}>
-        <View style={[styles.avatarCard45Small, styles.contentLayer3Bg]}>
-          <View style={[styles.frameParent, styles.frameParentFlexBox]}>
-            <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
+  return (
+    <View>
+      {dates.length > 1 ? (
+        dates.map((date, index) => (
+          <View key={id + date.day + date.type} style={styles.fullContainer}>
+            <View style={[styles.avatarCard45Small, styles.contentLayer3Bg]}>
+              <View style={[styles.frameParent, styles.frameParentFlexBox]}>
+                <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
+                  <Image
+                    style={[styles.frameChild, styles.frameChildPosition]}
+                    contentFit="cover"
+                    source={require("../../assets/rectangle-1.png")}
+                  />
+                </View>
+                <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
+                  <Image
+                    style={styles.avatarsLightVersion}
+                    contentFit="cover"
+                    source={images[id]}
+                  />
+                </View>
+              </View>
+              <View style={styles.contentLayer}>
+                <Text
+                  style={styles.diegoNeira}
+                >{`${names[0]} ${surnames[0]}`}</Text>
+              </View>
+              <View style={styles.terapiaOcupacionalWrapper}>
+                <Text style={[styles.terapiaOcupacional, styles.reagendarTypo]}>
+                  {`${date.type}`}
+                </Text>
+              </View>
+              <View style={[styles.contentLayer3, styles.contentFlexBox]}>
+                <View style={[styles.date, styles.datePosition]}>
+                  <Text style={[styles.text, styles.hrsTypo]}>{date.day}</Text>
+                </View>
+                <View style={[styles.hour, styles.datePosition]}>
+                  <Text style={[styles.hrs, styles.hrsTypo]}>{date.hour}</Text>
+                </View>
+                <View style={[styles.cosam, styles.datePosition]}>
+                  <Text style={[styles.hrsTypo]}>{cosam}</Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("Reangeda");
+                  setIsModalOpen(!isModalOpen);
+                  setDataModal(date);
+                }}
+              >
+                <View style={styles.contentLayer4}>
+                  <Image
+                    style={styles.timecalendarTickIcon}
+                    contentFit="cover"
+                    source={require("../../assets/timecalendartick.png")}
+                  />
+                  <Text style={[styles.reagendar, styles.reagendarTypo]}>
+                    Reagendar
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))
+      ) : (
+        <View style={styles.fullContainer}>
+          <View style={[styles.avatarCard45Small, styles.contentLayer3Bg]}>
+            <View style={[styles.frameParent, styles.frameParentFlexBox]}>
+              <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
+                <Image
+                  style={[styles.frameChild, styles.frameChildPosition]}
+                  contentFit="cover"
+                  source={require("../../assets/rectangle-1.png")}
+                />
+              </View>
+              <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
+                <Image
+                  style={styles.avatarsLightVersion}
+                  contentFit="cover"
+                  source={images[id]}
+                />
+              </View>
+            </View>
+            <View style={styles.contentLayer}>
+              <Text
+                style={styles.diegoNeira}
+              >{`${names[0]} ${surnames[0]}`}</Text>
+            </View>
+            <View style={styles.terapiaOcupacionalWrapper}>
+              <Text style={[styles.terapiaOcupacional, styles.reagendarTypo]}>
+                {`${dates[0].type} - ${cosam}`}
+              </Text>
+            </View>
+            <View style={[styles.contentLayer3, styles.contentFlexBox]}>
+              <View style={[styles.date, styles.datePosition]}>
+                <Text style={[styles.text, styles.hrsTypo]}>
+                  {dates[0].day}
+                </Text>
+              </View>
+              <View style={[styles.hour, styles.datePosition]}>
+                <Text style={[styles.hrs, styles.hrsTypo]}>
+                  {dates[0].hour}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.contentLayer4}>
               <Image
-                style={[styles.frameChild, styles.frameChildPosition]}
+                style={styles.timecalendarTickIcon}
                 contentFit="cover"
-                source={require("../../assets/rectangle-1.png")}
+                source={require("../../assets/timecalendartick.png")}
               />
+              <Text style={[styles.reagendar, styles.reagendarTypo]}>
+                Reagendar
+              </Text>
             </View>
-            <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
-              <Image
-                style={styles.avatarsLightVersion}
-                contentFit="cover"
-                source={require("../../assets/avatars-light-version.png")}
-                // source={require("../assets/avatars-light-version@3x.png")}
-                // source={require(`${avatarUsers}`)}
-              />
-            </View>
-          </View>
-          <View style={styles.contentLayer}>
-            <Text
-              style={styles.diegoNeira}
-            >{`${names[0]} ${surnames[0]}`}</Text>
-          </View>
-          <View style={styles.terapiaOcupacionalWrapper}>
-            <Text style={[styles.terapiaOcupacional, styles.reagendarTypo]}>
-              {`${date.type}`}
-            </Text>
-          </View>
-          <View style={[styles.contentLayer3, styles.contentFlexBox]}>
-            <View style={[styles.date, styles.datePosition]}>
-              <Text style={[styles.text, styles.hrsTypo]}>{date.day}</Text>
-            </View>
-            <View style={[styles.hour, styles.datePosition]}>
-              <Text style={[styles.hrs, styles.hrsTypo]}>{date.hour}</Text>
-            </View>
-            <View style={[styles.cosam, styles.datePosition]}>
-              <Text style={[styles.hrsTypo]}>{cosam}</Text>
-            </View>
-          </View>
-          <View style={styles.contentLayer4}>
-            <Image
-              style={styles.timecalendarTickIcon}
-              contentFit="cover"
-              source={require("../../assets/timecalendartick.png")}
-            />
-            <Text style={[styles.reagendar, styles.reagendarTypo]}>
-              Reagendar
-            </Text>
           </View>
         </View>
-      </View>
-    ));
-  } else {
-    return (
-      <View style={styles.fullContainer}>
-        <View style={[styles.avatarCard45Small, styles.contentLayer3Bg]}>
-          <View style={[styles.frameParent, styles.frameParentFlexBox]}>
-            <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
-              <Image
-                style={[styles.frameChild, styles.frameChildPosition]}
-                contentFit="cover"
-                source={require("../../assets/rectangle-1.png")}
-              />
-            </View>
-            <View style={[styles.vectorWrapper, styles.frameChildPosition]}>
-              <Image
-                style={styles.avatarsLightVersion}
-                contentFit="cover"
-                source={require("../../assets/avatars-light-version.png")}
-              />
-            </View>
-          </View>
-          <View style={styles.contentLayer}>
-            <Text
-              style={styles.diegoNeira}
-            >{`${names[0]} ${surnames[0]}`}</Text>
-          </View>
-          <View style={styles.terapiaOcupacionalWrapper}>
-            <Text style={[styles.terapiaOcupacional, styles.reagendarTypo]}>
-              {`${dates[0].type} - ${cosam}`}
-            </Text>
-          </View>
-          <View style={[styles.contentLayer3, styles.contentFlexBox]}>
-            <View style={[styles.date, styles.datePosition]}>
-              <Text style={[styles.text, styles.hrsTypo]}>{dates[0].day}</Text>
-            </View>
-            <View style={[styles.hour, styles.datePosition]}>
-              <Text style={[styles.hrs, styles.hrsTypo]}>{dates[0].hour}</Text>
-            </View>
-          </View>
-          <View style={styles.contentLayer4}>
-            <Image
-              style={styles.timecalendarTickIcon}
-              contentFit="cover"
-              source={require("../../assets/timecalendartick.png")}
-            />
-            <Text style={[styles.reagendar, styles.reagendarTypo]}>
-              Reagendar
-            </Text>
-          </View>
-        </View>
-      </View>
-    );
-  }
+      )}
+      <ModalTime
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        id={id}
+        dataModal={dataModal}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
