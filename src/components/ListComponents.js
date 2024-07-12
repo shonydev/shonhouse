@@ -4,13 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { ListUsers } from "./ListUsers";
 
 export const ListComponents = () => {
-  return (
-    <ListUsers />
-    // <View style={styles.container}>
-    //   <Text>shon</Text>
-    //   <StatusBar style="auto" />
-    // </View>
-  );
+  return <ListUsers />;
 };
 
 const styles = StyleSheet.create({

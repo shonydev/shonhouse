@@ -8,7 +8,7 @@ export const ListUsers = () => {
   const { globalState, setGlobalState } = useContext(AppContext);
 
   useEffect(() => {
-    fetch("http://192.168.0.29:3000/users")
+    fetch("https://shonhouse.vercel.app/api/users")
       .then((response) => {
         console.log("test1");
         if (!response.ok) {
@@ -21,17 +21,36 @@ export const ListUsers = () => {
         console.log("hola : ", JSON.stringify(json));
         console.log("hola : ", json.length);
         // await setUsers(json);
-        await setGlobalState({
-          ...globalState,
-          users: json,
-        });
-        console.log("2glove: ", JSON.stringify(globalState));
+        console.log("dattita: ", globalState);
+        console.log("datazo: ", globalState.userSession.rut);
+        if (globalState.userSession.rut) {
+          console.log("ifif");
+          const user2 = json.filter((user) => {
+            console.log("invicselbe");
+            console.log("user: ", user);
+            return user.rut === globalState.userSession.rut;
+          })[0];
+          console.log("user2. ", user2);
+          if (user2.type === "user") {
+            console.log("uysertype: ", user2.type);
+            await setGlobalState({
+              ...globalState,
+              users: [user2],
+            });
+          } else {
+            console.log("elsesito: ", user2.type);
+            await setGlobalState({
+              ...globalState,
+              users: json,
+            });
+          }
+        }
       })
       .catch((error) => {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching usersitos:", error);
         // Handle the error here, maybe display an error message to the user
       });
-  }, []);
+  }, [globalState.userSession.rut]);
   if (!globalState.users) {
     return <Text>Cargando...</Text>;
   }
