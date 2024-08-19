@@ -2,9 +2,24 @@ import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import Card from "./Card";
 import { AppContext } from "../context/AppContext";
+import { MotiView } from "moti";
+
+const SkeletonLoader = () => {
+  return (
+    <MotiView
+      from={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        loop: true,
+        type: "timing",
+        duration: 1000,
+      }}
+      style={styles.skeleton}
+    />
+  );
+};
 
 export const ListUsers = () => {
-  // const [users, setUsers] = useState([]);
   const { globalState, setGlobalState } = useContext(AppContext);
 
   useEffect(() => {
@@ -52,7 +67,7 @@ export const ListUsers = () => {
       });
   }, [globalState.userSession.rut]);
   if (!globalState.users) {
-    return <Text>Cargando...</Text>;
+    return <SkeletonLoader />;
   }
   return (
     <ScrollView>
@@ -84,5 +99,12 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     paddingBottom: 30,
+  },
+  skeleton: {
+    width: "100%",
+    height: 20,
+    backgroundColor: "#7a35a2",
+    borderRadius: 4,
+    marginVertical: 5,
   },
 });
